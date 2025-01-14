@@ -1,0 +1,74 @@
+---
+$id: https://mdxld.org/linked-data
+$type: https://schema.org/Article
+title: Introduction to Linked Data
+description: A deeper look into JSON-LD and YAML-LD for MDX-LD
+---
+
+# Linked Data in MDX-LD
+
+MDX-LD builds upon the foundations of Linked Data, specifically JSON-LD and YAML-LD, to create a powerful integration between structured data and content.
+
+## What is Linked Data?
+
+Linked Data is a method of publishing structured data so that it can be interlinked and become more useful through semantic queries. It extends the Web by using URIs to name the relationship between things, making it possible to have machine-readable data across different sources.
+
+## JSON-LD vs YAML-LD
+
+### JSON-LD
+JSON-LD (JavaScript Object Notation for Linked Data) is a lightweight format for structuring and linking data. Here's an example:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Introduction to JSON-LD",
+  "author": {
+    "@type": "Person",
+    "name": "John Doe"
+  }
+}
+```
+
+### YAML-LD
+YAML-LD is a variation of JSON-LD that uses YAML syntax for better readability. In MDX-LD, we use the `$` prefix instead of `@` in our frontmatter:
+
+```yaml
+$context: https://schema.org
+$type: Article
+title: Introduction to YAML-LD
+author:
+  $type: Person
+  name: John Doe
+```
+
+## Using Linked Data in MDX-LD
+
+MDX-LD combines the power of Linked Data with MDX by allowing you to:
+
+1. Define structured data in your frontmatter using YAML-LD syntax
+2. Access this data in your components
+3. Generate semantic markup that search engines can understand
+4. Create interlinked content with proper data relationships
+
+### Example Usage
+
+```mdx
+---
+$context: https://schema.org
+$type: BlogPosting
+title: My First MDX-LD Post
+author:
+  $type: Person
+  name: Jane Smith
+  url: https://example.com/jane
+---
+
+# {frontmatter.title}
+
+Written by [{frontmatter.author.name}]({frontmatter.author.url})
+
+Your MDX content here...
+```
+
+This approach ensures your content is both human-readable and machine-processable, making it ideal for modern web applications that need to handle both structured data and rich content.

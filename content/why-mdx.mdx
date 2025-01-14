@@ -1,0 +1,69 @@
+---
+$id: https://mdxld.org/why-mdx
+$type: https://schema.org/Article
+title: Why MDX?
+description: Understanding MDX as Markdown + Components and its powerful integration capabilities
+---
+
+# Why MDX?
+
+MDX is a powerful format that brings together multiple content types into a cohesive whole:
+
+## The Power of Integration
+
+MDX combines:
+- **Unstructured content** via Markdown
+- **Typed schemas** via JSON-LD/YAML-LD
+- **Structured data** via YAML frontmatter
+- **Executable code** via JavaScript/TypeScript
+- **UI components** via JSX/React
+
+This integration allows you to write content that is both rich in functionality and maintainable.
+
+## Markdown + JSX
+
+At its core, MDX allows you to use JSX in your Markdown content. This means you can:
+
+1. Write content in familiar Markdown syntax
+2. Import and use React components
+3. Pass data between components
+4. Create interactive documentation
+
+### Example
+
+```mdx
+---
+$type: https://schema.org/TechArticle
+title: Using Components in MDX
+---
+
+# {frontmatter.title}
+
+Here's a regular markdown paragraph.
+
+<Alert type="info">
+  This is a React component in the middle of Markdown!
+</Alert>
+
+- List items work
+- Just like regular markdown
+- But you can also use <Highlight>components inline</Highlight>
+```
+
+## Why Choose MDX?
+
+1. **Component Reusability**: Use the same components across your documentation
+2. **Rich Interactivity**: Add interactive elements without leaving your content
+3. **Type Safety**: Get TypeScript support for your components
+4. **Data Integration**: Access frontmatter data in your components
+5. **Flexible Styling**: Style your content using your preferred CSS solution
+
+## MDX + Linked Data = MDX-LD
+
+MDX-LD extends MDX by adding:
+- YAML-LD support in frontmatter
+- Typed data structures
+- Semantic relationships between content
+- Enhanced component props typing
+
+This combination creates a powerful system for creating rich, interactive content with proper data structures and relationships.

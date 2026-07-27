@@ -23,6 +23,28 @@ export const metadata = {
     'msapplication-TileImage': '/ms-icon-144x144.png',
     'msapplication-TileColor': '#fff',
   },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'MDXLD',
+    title: 'MDXLD — an extension of MDX',
+    description: 'It adds $id, $type and $context to the frontmatter, so a document says what it is — and not only how it renders.',
+    images: [
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        type: 'image/png',
+        alt: 'MDXLD — an extension of MDX. It adds $id, $type and $context to the frontmatter, so a document says what it is, and not only how it renders. Pre-1.0, deliberately unfixed.',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MDXLD — an extension of MDX',
+    description: 'It adds $id, $type and $context to the frontmatter, so a document says what it is — and not only how it renders.',
+    images: ['/og.png'],
+  },
 }
 
 export default async function RootLayout({ children }) {
@@ -41,13 +63,11 @@ export default async function RootLayout({ children }) {
     <Footer>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <div>
-          MDXLD is an extension of <a href='https://mdxjs.com'>MDX</a>, an open standard
-          authored by the MDX community. MDXLD itself is maintained by{' '}
+          MDXLD is an extension of <a href='https://mdxjs.com'>MDX</a>, an open standard authored by the MDX community. MDXLD itself is maintained by{' '}
           <a href='https://foundation.org.ai'>The Org.AI Foundation</a>.
         </div>
         <div style={{ opacity: '60%' }}>
-          Documented at <a href='https://mdx.org.ai'>mdx.org.ai</a> · vocabulary at{' '}
-          <a href='https://schema.org.ai'>schema.org.ai</a>
+          Documented at <a href='https://mdx.org.ai'>mdx.org.ai</a> · vocabulary at <a href='https://schema.org.ai'>schema.org.ai</a>
         </div>
       </div>
     </Footer>
@@ -59,8 +79,7 @@ export default async function RootLayout({ children }) {
         <Layout
           banner={
             <Banner storageKey='mdxld-pre-1.0'>
-              MDXLD is pre-1.0 and deliberately unfixed — nothing freezes until real
-              external implementations prove the shape.
+              MDXLD is pre-1.0 and deliberately unfixed — nothing freezes until real external implementations prove the shape.
             </Banner>
           }
           navbar={navbar}

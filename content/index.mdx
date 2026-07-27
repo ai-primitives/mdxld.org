@@ -96,13 +96,23 @@ this one.
 
 ## Why the dollar sign
 
-JSON-LD reserves `@`. MDX documents compile to **ESM**, and `@id` is not a legal
-JavaScript identifier, so a JSON-LD keyword cannot survive the trip through an MDX
-compiler as a binding. ESM identifiers admit exactly two special characters, `_` and `$`;
-MDXLD spends `$` on this and reserves it. **User-defined keys never begin with `$`.**
+**`$id` and `$type` are not a deviation.** JSON-LD 1.1 permits keyword aliasing through the
+context, and the JSON-LD community publishes exactly this alias set at
+[`dollar-convenience.jsonld`](https://json-ld.org/contexts/dollar-convenience.jsonld).
+MDXLD's `$id` and `$type` are that convention, not an invention of ours.
 
-This is a deliberate deviation from YAML-LD's `@`-keyword core rather than an accident,
-and it is the part we would most like to converge with the YAML-LD authors on.
+**`$context` is the deviation**, and it is a real one: `@context` is the single JSON-LD
+keyword that [cannot be aliased](https://www.w3.org/TR/json-ld11/#aliasing-keywords), and
+an alias could not be used inside a context in any case. (Note that
+`dollar-convenience.jsonld` contains no `$context` entry, for exactly this reason.) MDXLD
+spells it `$context` regardless, for one mechanical reason — an MDX document compiles to
+**ESM**, `@context` is not a legal JavaScript identifier, and a document forced to quote
+`'@context'` has lost the very property that makes the `$` set worth having. In YAML, too,
+a bare `@` is a reserved indicator character and must be quoted.
+
+The compatibility shim is one rename: a conforming JSON-LD processor reads MDXLD
+frontmatter by renaming `$context` to `@context`. **User-defined keys never begin with
+`$`.**
 
 ## Status
 

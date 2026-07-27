@@ -65,6 +65,11 @@ document — one that simply declares no linked data. What MDXLD adds is:
 - Semantic relationships between documents, via `$id`
 - Component props typed from `$type`
 
-The relationship is the same one MDX has with Markdown: **conform to everything below,
-add above it, break nothing.** See [Linked Data](/linked-data) for how the frontmatter
-half works, and [mdx.org.ai](https://mdx.org.ai) for the full documentation.
+Note that MDXLD's relationship to MDX is *stricter* than MDX's own relationship to
+Markdown. MDX does not claim to be a superset of Markdown and is careful to say so —
+indented code blocks, autolinks and raw HTML all behave differently under MDX. MDXLD makes
+the stronger promise, because it only ever *adds* frontmatter keys and never changes how a
+document parses or renders.
+
+See [Linked Data](/linked-data) for how the frontmatter half works, and
+[mdx.org.ai](https://mdx.org.ai) for the full documentation.

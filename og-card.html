@@ -1,0 +1,85 @@
+<!doctype html>
+<!-- Source for public/og.png (1200×630). Rendered by headless Chrome:
+
+       "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+         --headless=new --disable-gpu --hide-scrollbars \
+         --screenshot=public/og.png --window-size=1200,630 \
+         --allow-file-access-from-files "file://$PWD/og-card.html"
+
+     The PNG is committed so an ordinary build never needs a browser.
+     Layout mirrors foundation.org.ai's card (thin accent edge at left,
+     wordmark, claim, domain) — one family, one shape.
+
+     Palette: this repo defines no design tokens at all — it is stock
+     Nextra with `import 'nextra-theme-docs/style.css'` and no theme
+     configuration — so the card inherits The Org.AI Foundation's palette
+     (foundation.org.ai/src/og-card.html) verbatim. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: oklch(0.178 0.006 78);
+    --fg: oklch(0.960 0.005 86);
+    --accent: oklch(0.800 0.118 68);
+    --muted: oklch(0.792 0.005 82);
+    --dim: oklch(0.638 0.006 82);
+    --line: oklch(0.638 0.006 82 / 0.34);
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+      Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+      "Liberation Mono", monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    background: var(--bg);
+    font-family: var(--sans);
+    color: var(--fg);
+    position: relative;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .edge {
+    position: absolute; left: 96px; top: 96px; bottom: 96px;
+    width: 6px; background: var(--accent);
+  }
+  .in {
+    position: absolute; left: 150px; right: 96px; top: 96px; bottom: 96px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .wordmark {
+    font-size: 30px; font-weight: 600; letter-spacing: 0.01em;
+    color: var(--muted);
+  }
+  .claim {
+    font-size: 54px; font-weight: 600; line-height: 1.16;
+    letter-spacing: -0.026em; color: var(--fg); max-width: 950px;
+  }
+  .claim em { font-style: normal; color: var(--accent); }
+  .claim code {
+    font: 600 0.86em/1 var(--mono);
+    color: var(--accent); letter-spacing: -0.01em;
+  }
+  .foot { display: flex; align-items: center; justify-content: space-between; }
+  .site { font-size: 26px; font-weight: 400; color: var(--dim); }
+  .badge {
+    font: 500 17px/1 var(--mono);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 10px 16px; border: 1px solid var(--line);
+    border-radius: 999px; color: var(--muted); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+  <div class="edge"></div>
+  <div class="in">
+    <div class="wordmark">MDXLD — an extension of MDX</div>
+    <div class="claim">It adds <code>$id</code>, <code>$type</code> and <code>$context</code> to the frontmatter, so a document says what it&nbsp;<em>is</em> — and not only how it&nbsp;renders.</div>
+    <div class="foot">
+      <div class="site">mdxld.org</div>
+      <div class="badge">Pre-1.0 · deliberately unfixed</div>
+    </div>
+  </div>
+</body>
+</html>

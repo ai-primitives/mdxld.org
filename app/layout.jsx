@@ -3,27 +3,47 @@ import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
-import { Logo } from './logo'
 
 export const { viewport } = Head
 
 export const metadata = {
-  metadataBase: new URL('https://primitives.org.ai'),
+  metadataBase: new URL('https://mdxld.org'),
   title: {
-    template: '%s - AI Primitives',
+    default: 'MDXLD',
+    template: '%s — MDXLD',
   },
-  description: 'AI Primitives: Actions, Chat, Database,Functions, Workflows, and Agents',
-  applicationName: 'AI Primitives',
+  description:
+    'MDXLD is an extension of MDX: $id / $type / $context linked-data keys in the frontmatter, over the open MDX format authored by the MDX community.',
+  applicationName: 'MDXLD',
   generator: 'Next.js',
   appleWebApp: {
-    title: 'AI Primitives',
+    title: 'MDXLD',
   },
   other: {
     'msapplication-TileImage': '/ms-icon-144x144.png',
     'msapplication-TileColor': '#fff',
   },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'MDXLD',
+    title: 'MDXLD — an extension of MDX',
+    description: 'It adds $id, $type and $context to the frontmatter, so a document says what it is — and not only how it renders.',
+    images: [
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        type: 'image/png',
+        alt: 'MDXLD — an extension of MDX. It adds $id, $type and $context to the frontmatter, so a document says what it is, and not only how it renders. Pre-1.0, deliberately unfixed.',
+      },
+    ],
+  },
   twitter: {
-    site: 'https://nextra.site',
+    card: 'summary_large_image',
+    title: 'MDXLD — an extension of MDX',
+    description: 'It adds $id, $type and $context to the frontmatter, so a document says what it is — and not only how it renders.',
+    images: ['/og.png'],
   },
 }
 
@@ -32,24 +52,40 @@ export default async function RootLayout({ children }) {
     <Navbar
       logo={
         <div>
-          <b>MDXLD</b><span style={{ opacity: '60%' }}>.org</span>
+          <b>MDXLD</b>
+          <span style={{ opacity: '60%' }}>.org</span>
         </div>
       }
-      // Next.js discord server
-      chatLink="https://discord.gg/BHZCzx83"
-      projectLink="https://github.com/ai-primitives/docs-template"
+      projectLink='https://github.com/ai-primitives/mdxld.org'
     />
+  )
+  const footer = (
+    <Footer>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div>
+          MDXLD is an extension of <a href='https://mdxjs.com'>MDX</a>, an open standard authored by the MDX community. MDXLD itself is maintained by{' '}
+          <a href='https://foundation.org.ai'>The Org.AI Foundation</a>.
+        </div>
+        <div style={{ opacity: '60%' }}>
+          Documented at <a href='https://mdx.org.ai'>mdx.org.ai</a> · vocabulary at <a href='https://schema.org.ai'>schema.org.ai</a>
+        </div>
+      </div>
+    </Footer>
   )
   return (
     <html lang='en' dir='ltr' suppressHydrationWarning>
       <Head faviconGlyph='✦' />
       <body>
         <Layout
-          banner={<Banner storageKey='MDXLD'>MDXLD v1.0 Released</Banner>}
+          banner={
+            <Banner storageKey='mdxld-pre-1.0'>
+              MDXLD is pre-1.0 and deliberately unfixed — nothing freezes until real external implementations prove the shape.
+            </Banner>
+          }
           navbar={navbar}
-          footer={<Footer><a href='https://driv.ly'><Logo/></a></Footer>}
+          footer={footer}
           editLink='Edit this page on GitHub'
-          docsRepositoryBase='https://github.com/ai-primitives/docs-template/blob/main'
+          docsRepositoryBase='https://github.com/ai-primitives/mdxld.org/blob/main'
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           pageMap={await getPageMap()}
         >

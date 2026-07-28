@@ -1,22 +1,27 @@
 ---
+$context: https://schema.org.ai
 $id: https://mdxld.org/linked-data
-$type: https://schema.org/Article
-title: Introduction to Linked Data
-description: A deeper look into JSON-LD and YAML-LD for MDX-LD
+$type: Article
+title: Linked Data
+description: How MDXLD's frontmatter relates to JSON-LD and YAML-LD, and where it deliberately extends them.
 ---
 
-# Linked Data in MDX-LD
+# Linked Data in MDXLD
 
-MDX-LD builds upon the foundations of Linked Data, specifically JSON-LD and YAML-LD, to create a powerful integration between structured data and content.
+MDXLD's frontmatter is a **superset of YAML-LD**, which is itself a YAML serialization of
+**JSON-LD**. Both of those are other people's work, governed elsewhere; MDXLD conforms to
+their model and extends it in exactly one place.
 
 ## What is Linked Data?
 
-Linked Data is a method of publishing structured data so that it can be interlinked and become more useful through semantic queries. It extends the Web by using URIs to name the relationship between things, making it possible to have machine-readable data across different sources.
+Linked Data is a method of publishing structured data so that it can be interlinked and
+become more useful through semantic queries. It extends the Web by using URIs to name the
+relationships between things, making machine-readable data joinable across sources.
 
-## JSON-LD vs YAML-LD
+## JSON-LD
 
-### JSON-LD
-JSON-LD (JavaScript Object Notation for Linked Data) is a lightweight format for structuring and linking data. Here's an example:
+[JSON-LD](https://www.w3.org/TR/json-ld11/) is a W3C Recommendation — a lightweight format
+for structuring and linking data:
 
 ```json
 {
@@ -30,34 +35,72 @@ JSON-LD (JavaScript Object Notation for Linked Data) is a lightweight format for
 }
 ```
 
-### YAML-LD
-YAML-LD is a variation of JSON-LD that uses YAML syntax for better readability. In MDX-LD, we use the `$` prefix instead of `@` in our frontmatter:
+## YAML-LD
+
+YAML-LD is a YAML serialization of that same data model, developed in the **W3C JSON-LD
+Community Group**. It keeps JSON-LD's `@`-prefixed keywords:
 
 ```yaml
-$context: https://schema.org
-$type: Article
+'@context': https://schema.org
+'@type': Article
 title: Introduction to YAML-LD
+author:
+  '@type': Person
+  name: John Doe
+```
+
+Note the quotes. In YAML a bare `@` is a reserved indicator character, so `@context:` has
+to be quoted to be valid — a small friction that already pushes YAML-LD authors toward
+aliasing.
+
+## Where MDXLD extends it
+
+**MDXLD uses `$` where JSON-LD uses `@`:**
+
+```yaml
+$context: https://schema.org.ai
+$type: Article
+title: Introduction to MDXLD
 author:
   $type: Person
   name: John Doe
 ```
 
-## Using Linked Data in MDX-LD
+**`$id` and `$type` are not a deviation.** JSON-LD 1.1 permits keyword aliasing through the
+context, and the JSON-LD community publishes exactly this alias set at
+[`dollar-convenience.jsonld`](https://json-ld.org/contexts/dollar-convenience.jsonld).
+MDXLD's `$id` and `$type` are that convention, not an invention of ours.
 
-MDX-LD combines the power of Linked Data with MDX by allowing you to:
+**`$context` is the deviation**, and it is a real one: `@context` is the single JSON-LD
+keyword that [cannot be aliased](https://www.w3.org/TR/json-ld11/#aliasing-keywords), and
+an alias could not be used inside a context in any case. (Note that
+`dollar-convenience.jsonld` contains no `$context` entry, for exactly this reason.) MDXLD
+spells it `$context` regardless, for one mechanical reason — an MDX document compiles to
+**ESM**, `@context` is not a legal JavaScript identifier, and a document forced to quote
+`'@context'` has lost the very property that makes the `$` set worth having. In YAML, too,
+a bare `@` is a reserved indicator character and must be quoted.
 
-1. Define structured data in your frontmatter using YAML-LD syntax
-2. Access this data in your components
-3. Generate semantic markup that search engines can understand
-4. Create interlinked content with proper data relationships
+The compatibility shim is one rename: a conforming JSON-LD processor reads MDXLD
+frontmatter by renaming `$context` to `@context`. **User-defined keys never begin with
+`$`.**
 
-### Example Usage
+## `$context` is always `https://schema.org.ai`
+
+Unversioned, and permanently so. A binding IRI is an identity, and identities do not
+carry version numbers — a versioned `$context` URL is a defect, not a feature.
+
+[`schema.org.ai`](https://schema.org.ai) is our superset of
+[schema.org](https://schema.org), in the same relationship MDXLD has to MDX: everything
+schema.org defines keeps schema.org's meaning, and our additions sit above it.
+
+## Using it
 
 ```mdx
 ---
-$context: https://schema.org
+$context: https://schema.org.ai
+$id: https://example.com/posts/first
 $type: BlogPosting
-title: My First MDX-LD Post
+title: My First MDXLD Post
 author:
   $type: Person
   name: Jane Smith
@@ -71,4 +114,6 @@ Written by [{frontmatter.author.name}]({frontmatter.author.url})
 Your MDX content here...
 ```
 
-This approach ensures your content is both human-readable and machine-processable, making it ideal for modern web applications that need to handle both structured data and rich content.
+This keeps the document human-readable and machine-processable at once — and, because
+MDXLD is a superset, any MDX toolchain that ignores the frontmatter entirely still
+renders the page correctly.

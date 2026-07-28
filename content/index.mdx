@@ -1,25 +1,62 @@
+---
+$context: https://schema.org.ai
+$id: https://mdxld.org
+$type: TechArticle
+title: An extension of MDX
+description: MDXLD is an extension of MDX — linked-data frontmatter over the open MDX format.
+---
+
 import { Cards, Steps } from 'nextra/components'
 import { SiMarkdown, SiYaml, SiJson, SiJavascript, SiReact } from 'react-icons/si'
-import { HiOutlineSparkles } from 'react-icons/hi2'
 
-# Why MDX?
+# MDXLD
 
-MDX brings together unstructured content via Markdown, typed schemas via JSON-LD, structured data via YAML frontmatter,
-executable code via JavaScript/TypeScript, and UI components via JSX/React.
+**MDXLD is an extension of MDX.** It adds one thing: a small set of `$`-prefixed
+linked-data keys in the YAML frontmatter — `$id`, `$type`, `$context` — so that a
+document says what it *is*, and not only how it renders.
+
+## What is ours, and what is not
+
+[**MDX**](https://mdxjs.com) is an **open standard authored by the MDX community**, not by
+us. That Markdown, JSX and ESM compose in a single file is the MDX project's achievement;
+everything on this site is written in it. We are downstream users of that work, and we
+conform to it.
+
+**MDXLD is ours.** It is a **superset of MDX** — every valid MDX document is a valid MDXLD
+document — and, in the frontmatter, a **superset of YAML-LD**. The relationship reads the
+same way twice over:
+
+```
+  Markdown  ──▶  MDX             ──▶  MDXLD
+  (theirs)       (theirs, open)       (ours, superset)
+
+  JSON-LD   ──▶  YAML-LD         ──▶  MDXLD frontmatter
+  (theirs)       (theirs, open)       (ours, superset)
+```
+
+It is the same pattern as [schema.org](https://schema.org) →
+[schema.org.ai](https://schema.org.ai): conform on the shared core, extend deliberately
+above it, and say plainly which half is which.
+
+**MDXUI is ours too.** It is one of the eleven primitives — the component layer that
+renders an MDXLD document — and it is a separate piece of work from the format described
+on this page. It has no published site yet, so there is nothing here to link to.
+
+## The frontmatter
 
 <Cards num={5}>
-  <Cards.Card icon={<HiOutlineSparkles />} title='Generative AI' href='#generative-ai'/>
-  <Cards.Card icon={<SiMarkdown />} title='Markdown' href='#markdown'/>
-  <Cards.Card icon={<SiYaml />} title='YAML' href='#yaml'/>
-  <Cards.Card icon={<SiJson />} title='JSON-LD' href='#json-ld'/>
-  <Cards.Card icon={<SiJavascript />} title='Javascript / Typescript' href='#javascript-typescript'/>
-  <Cards.Card icon={<SiReact />} title='JSX / React' href='#jsx-react'/>
+  <Cards.Card icon={<SiMarkdown />} title='Markdown' href='https://commonmark.org'/>
+  <Cards.Card icon={<SiYaml />} title='YAML' href='https://yaml.org'/>
+  <Cards.Card icon={<SiJson />} title='JSON-LD' href='https://www.w3.org/TR/json-ld11/'/>
+  <Cards.Card icon={<SiJavascript />} title='Javascript / Typescript' href='https://mdxjs.com'/>
+  <Cards.Card icon={<SiReact />} title='JSX / React' href='https://mdxjs.com'/>
 </Cards>
 
 ```markdown
 ---
+$context: https://schema.org.ai
 $id: https://example.com
-$type: https://schema.org/WebSite
+$type: WebSite
 title: Example Domain
 description: This domain is for use in illustrative examples in documents
 ---
@@ -30,42 +67,62 @@ This domain is for use in illustrative examples in documents. You may use this
 domain in literature without prior coordination or asking for permission.
 
 [More information...](https://www.iana.org/domains/example)
-
 ```
+
+Three keys carry the linked data. Everything else in that block is ordinary YAML
+frontmatter and keeps whatever meaning your toolchain already gave it — which is the
+point of being a superset rather than a replacement.
 
 <Steps>
 
-### Functions
+### `$context`
 
-Functions are the building blocks of AI Primitives. They are small, reusable pieces of code that can be used to perform specific tasks.
+The vocabulary binding IRI. Here it is always
+[`https://schema.org.ai`](https://schema.org.ai) — **unversioned, and permanently so.**
+A versioned context URL is a defect: the binding IRI is an identity, and identities do
+not carry version numbers. `schema.org.ai` is our superset of
+[schema.org](https://schema.org), so a `$type` that schema.org already defines keeps
+schema.org's meaning.
 
-### Workflows
+### `$type`
 
-Workflows are the building blocks of AI Primitives. They are small, reusable pieces of code that can be used to perform specific tasks.
+What the document is. Resolved against `$context`, so `$type: WebSite` and
+`$type: https://schema.org.ai/WebSite` name the same class.
 
-### Agents
+### `$id`
 
-Agents are the building blocks of AI Primitives. They are small, reusable pieces of code that can be used to perform specific tasks.
+The document's identity as a URI — what other documents point at when they refer to
+this one.
 
 </Steps>
 
-```mermaid
-graph TD;
-  subgraph AA [Consumers]
-    A[Mobile app];
-    B[Web app];
-    C[Node.js client];
-  end
-  subgraph BB [Services]
-    E[REST API];
-    F[GraphQL API];
-    G[SOAP API];
-  end
-  Z[GraphQL API];
-  A --> Z;
-  B --> Z;
-  C --> Z;
-  Z --> E;
-  Z --> F;
-  Z --> G;
-```
+## Why the dollar sign
+
+**`$id` and `$type` are not a deviation.** JSON-LD 1.1 permits keyword aliasing through the
+context, and the JSON-LD community publishes exactly this alias set at
+[`dollar-convenience.jsonld`](https://json-ld.org/contexts/dollar-convenience.jsonld).
+MDXLD's `$id` and `$type` are that convention, not an invention of ours.
+
+**`$context` is the deviation**, and it is a real one: `@context` is the single JSON-LD
+keyword that [cannot be aliased](https://www.w3.org/TR/json-ld11/#aliasing-keywords), and
+an alias could not be used inside a context in any case. (Note that
+`dollar-convenience.jsonld` contains no `$context` entry, for exactly this reason.) MDXLD
+spells it `$context` regardless, for one mechanical reason — an MDX document compiles to
+**ESM**, `@context` is not a legal JavaScript identifier, and a document forced to quote
+`'@context'` has lost the very property that makes the `$` set worth having. In YAML, too,
+a bare `@` is a reserved indicator character and must be quoted.
+
+The compatibility shim is one rename: a conforming JSON-LD processor reads MDXLD
+frontmatter by renaming `$context` to `@context`. **User-defined keys never begin with
+`$`.**
+
+## Status
+
+MDXLD is **pre-1.0 and deliberately unfixed.** Nothing here freezes until at least two
+real external implementations prove the shape. If you are building on it, say so — that
+is the signal that decides what gets fixed and when.
+
+## Where this is documented
+
+MDXLD's home is [**mdx.org.ai**](https://mdx.org.ai). This site is a serving surface for
+that home.

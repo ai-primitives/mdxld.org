@@ -1,3 +1,5 @@
 export default {
-  index: 'MDX-LD',
+  index: 'MDXLD',
+  'why-mdx': 'Why MDX',
+  'linked-data': 'Linked Data',
 }

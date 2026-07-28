@@ -1,39 +1,37 @@
 ---
+$context: https://schema.org.ai
 $id: https://mdxld.org/why-mdx
-$type: https://schema.org/Article
-title: Why MDX?
-description: Understanding MDX as Markdown + Components and its powerful integration capabilities
+$type: Article
+title: Why MDX
+description: MDX is an open standard by the MDX community. MDXLD builds on it rather than replacing it.
 ---
 
-# Why MDX?
+# Why MDX
 
-MDX is a powerful format that brings together multiple content types into a cohesive whole:
+MDXLD is built on **[MDX](https://mdxjs.com)**, and the first thing to say about MDX is
+that it is **not ours**. It is an open standard authored and maintained by the **MDX
+community** at [mdxjs.com](https://mdxjs.com). We chose it; we did not make it.
 
-## The Power of Integration
+## What MDX gives us
 
-MDX combines:
-- **Unstructured content** via Markdown
-- **Typed schemas** via JSON-LD/YAML-LD
-- **Structured data** via YAML frontmatter
-- **Executable code** via JavaScript/TypeScript
-- **UI components** via JSX/React
-
-This integration allows you to write content that is both rich in functionality and maintainable.
-
-## Markdown + JSX
-
-At its core, MDX allows you to use JSX in your Markdown content. This means you can:
+MDX lets a single file hold Markdown prose and JSX components, and compile to ESM. That
+combination is the whole reason MDXLD is possible:
 
 1. Write content in familiar Markdown syntax
-2. Import and use React components
+2. Import and use components
 3. Pass data between components
-4. Create interactive documentation
+4. Compile the result to a JavaScript module
+
+The last point matters more than it looks. Because an MDX document **is** an ES module,
+its exports are addressable by ordinary tooling — and that is what lets a linked-data
+identity ride along with the content instead of sitting in a sidecar file.
 
 ### Example
 
 ```mdx
 ---
-$type: https://schema.org/TechArticle
+$context: https://schema.org.ai
+$type: TechArticle
 title: Using Components in MDX
 ---
 
@@ -41,29 +39,37 @@ title: Using Components in MDX
 
 Here's a regular markdown paragraph.
 
-<Alert type="info">
-  This is a React component in the middle of Markdown!
-</Alert>
+<Alert type='info'>This is a component in the middle of Markdown.</Alert>
 
 - List items work
 - Just like regular markdown
 - But you can also use <Highlight>components inline</Highlight>
 ```
 
-## Why Choose MDX?
+## One thing MDX deliberately leaves open
 
-1. **Component Reusability**: Use the same components across your documentation
-2. **Rich Interactivity**: Add interactive elements without leaving your content
-3. **Type Safety**: Get TypeScript support for your components
-4. **Data Integration**: Access frontmatter data in your components
-5. **Flexible Styling**: Style your content using your preferred CSS solution
+MDX itself does not define YAML frontmatter — frontmatter is supplied by
+`remark-frontmatter`, and MDX assigns it **no semantics**. It is parsed and handed to the
+host, which decides what it means.
 
-## MDX + Linked Data = MDX-LD
+That open seam is exactly where MDXLD lives. We are not overriding an MDX rule; we are
+filling in a space MDX left for its hosts on purpose.
 
-MDX-LD extends MDX by adding:
-- YAML-LD support in frontmatter
-- Typed data structures
-- Semantic relationships between content
-- Enhanced component props typing
+## MDX + Linked Data = MDXLD
 
-This combination creates a powerful system for creating rich, interactive content with proper data structures and relationships.
+**MDXLD is a superset of MDX.** Every valid MDX document is already a valid MDXLD
+document — one that simply declares no linked data. What MDXLD adds is:
+
+- `$id`, `$type` and `$context` in the frontmatter — a superset of YAML-LD
+- Typed data structures resolved against `$context`
+- Semantic relationships between documents, via `$id`
+- Component props typed from `$type`
+
+Note that MDXLD's relationship to MDX is *stricter* than MDX's own relationship to
+Markdown. MDX does not claim to be a superset of Markdown and is careful to say so —
+indented code blocks, autolinks and raw HTML all behave differently under MDX. MDXLD makes
+the stronger promise, because it only ever *adds* frontmatter keys and never changes how a
+document parses or renders.
+
+See [Linked Data](/linked-data) for how the frontmatter half works, and
+[mdx.org.ai](https://mdx.org.ai) for the full documentation.

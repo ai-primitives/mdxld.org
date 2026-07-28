@@ -10,9 +10,13 @@ superset of YAML-LD. `$context` is always `https://schema.org.ai`, unversioned.
 [mdxjs.com](https://mdxjs.com). MDXLD is ours, and it sits on top of theirs without
 changing it: every valid MDX document is a valid MDXLD document.
 
-MDXLD's documentation home is **[mdx.org.ai](https://mdx.org.ai)**; this site's front page
-carries `rel=canonical` there. Both are properties of
+MDXLD's documentation home is **[mdx.org.ai](https://mdx.org.ai)**. Both are properties of
 [The Org.AI Foundation](https://foundation.org.ai).
+
+Every page here is self-canonical. The front page does *not* point `rel=canonical` at
+mdx.org.ai: that URL 307s to `/docs`, which serves a component reference rather than
+MDXLD's definition, and a canonical must resolve to a page containing the referent. See
+the comment in `app/[[...mdxPath]]/page.jsx` for the condition under which that flips.
 
 ## Status
 

@@ -8,7 +8,6 @@ description: MDXLD is an extension of MDX — linked-data frontmatter over the o
 
 import { Cards, Steps } from 'nextra/components'
 import { SiMarkdown, SiYaml, SiJson, SiJavascript, SiReact } from 'react-icons/si'
-import { HiOutlineSparkles } from 'react-icons/hi2'
 
 # MDXLD
 
@@ -39,10 +38,13 @@ It is the same pattern as [schema.org](https://schema.org) →
 [schema.org.ai](https://schema.org.ai): conform on the shared core, extend deliberately
 above it, and say plainly which half is which.
 
+**MDXUI is ours too.** It is one of the eleven primitives — the component layer that
+renders an MDXLD document — and it is a separate piece of work from the format described
+on this page. It has no published site yet, so there is nothing here to link to.
+
 ## The frontmatter
 
 <Cards num={5}>
-  <Cards.Card icon={<HiOutlineSparkles />} title='Generative AI' href='#why-the-dollar-sign'/>
   <Cards.Card icon={<SiMarkdown />} title='Markdown' href='https://commonmark.org'/>
   <Cards.Card icon={<SiYaml />} title='YAML' href='https://yaml.org'/>
   <Cards.Card icon={<SiJson />} title='JSON-LD' href='https://www.w3.org/TR/json-ld11/'/>
@@ -123,4 +125,4 @@ is the signal that decides what gets fixed and when.
 ## Where this is documented
 
 MDXLD's home is [**mdx.org.ai**](https://mdx.org.ai). This site is a serving surface for
-that home, and its front page points there.
+that home.

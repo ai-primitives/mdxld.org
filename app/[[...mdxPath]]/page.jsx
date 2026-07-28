@@ -8,12 +8,12 @@ export const generateStaticParams = generateStaticParamsFor('mdxPath')
 export async function generateMetadata(props) {
   const params = await props.params
   const { metadata } = await importPage(params.mdxPath)
-  // MDXLD's documentation home is mdx.org.ai. mdxld.org is a serving surface for it,
-  // so the front page — which serves the same referent, "what MDXLD is" — points there.
-  // Deeper pages have no counterpart at that home yet and canonicalise to themselves;
-  // pointing them all at one URL would be a false claim about what that URL contains.
+  // Every page canonicalises to itself. mdx.org.ai is MDXLD's documentation home, but
+  // https://mdx.org.ai currently 307s to /docs, which serves a component reference and
+  // not "what MDXLD is" — a canonical must resolve to a page that contains the referent.
+  // Flip the front page to mdx.org.ai/<mdxld-path> once that page actually serves it.
   const path = (params.mdxPath ?? []).join('/')
-  const canonical = path === '' ? 'https://mdx.org.ai' : `https://mdxld.org/${path}`
+  const canonical = `https://mdxld.org${path ? `/${path}` : ''}`
   return { ...metadata, alternates: { ...metadata?.alternates, canonical } }
 }
 

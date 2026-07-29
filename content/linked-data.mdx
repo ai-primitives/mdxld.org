@@ -71,18 +71,23 @@ context, and the JSON-LD community publishes exactly this alias set at
 [`dollar-convenience.jsonld`](https://json-ld.org/contexts/dollar-convenience.jsonld).
 MDXLD's `$id` and `$type` are that convention, not an invention of ours.
 
-**`$context` is the deviation**, and it is a real one: `@context` is the single JSON-LD
-keyword that [cannot be aliased](https://www.w3.org/TR/json-ld11/#aliasing-keywords), and
-an alias could not be used inside a context in any case. (Note that
+**`$context` is the deviation**, and it is a real one: JSON-LD 1.1 is normative here —
+["The `@context` keyword MUST NOT be aliased"](https://www.w3.org/TR/json-ld11/#keywords)
+(§9.16) — and an alias could not be used inside a context in any case. (Note that
 `dollar-convenience.jsonld` contains no `$context` entry, for exactly this reason.) MDXLD
 spells it `$context` regardless, for one mechanical reason — an MDX document compiles to
 **ESM**, `@context` is not a legal JavaScript identifier, and a document forced to quote
 `'@context'` has lost the very property that makes the `$` set worth having. In YAML, too,
 a bare `@` is a reserved indicator character and must be quoted.
 
-The compatibility shim is one rename: a conforming JSON-LD processor reads MDXLD
-frontmatter by renaming `$context` to `@context`. **User-defined keys never begin with
-`$`.**
+The compatibility shim is one rename: a processor reads MDXLD frontmatter by renaming
+`$context` to `@context`. The rename is **syntactic** — it restores JSON-LD's shape. The
+bound IRI is not yet served as a dereferenceable context document, so term resolution
+today rests on `dollar-convenience.jsonld` for the `$` keys, not on fetching
+`https://schema.org.ai`; we say so rather than imply otherwise. A
+[profile identifier](https://www.w3.org/TR/json-ld11/#iana-considerations) is the
+formalization path open to us for this dialect — ours to publish when it is earned, and
+pre-1.0 we promise neither a URI nor a date. **User-defined keys never begin with `$`.**
 
 ## `$context` is always `https://schema.org.ai`
 
